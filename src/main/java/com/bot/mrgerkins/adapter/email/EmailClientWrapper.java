@@ -13,5 +13,5 @@ import org.springframework.stereotype.Service;
 public interface EmailClientWrapper {
 
     @Async
-    public void sendMail(String sender, String recipient, String Subject, String body) throws EmailException;
+    public void sendMail(String sender, String replyTo, String recipient, String Subject, String body) throws EmailException;
 }

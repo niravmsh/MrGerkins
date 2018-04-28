@@ -92,17 +92,19 @@ public class GithubUtilsTest {
     @Test
     public void testNotifyRelease() throws IOException, EmailException {
         String senderEmail = "bijil@mrgeerkins.com";
+        String replyToEmail = "nirshah@mrgeerkins.com";
         String notifyDlEmail = "notify-dl@mrgeerkins.com";
         ReleasePayload releasePayload = new ObjectMapper().readValue(new String(Files.readAllBytes(Paths.get(RELEASEEVENT_WH_FILE))), ReleasePayload.class);
 
         Mockito.doAnswer(invocationOnMock -> {
             Object args[] = invocationOnMock.getArguments();
-            assertThat(args).hasSize(4);
-            assertThat(args).contains(senderEmail,notifyDlEmail, BAXTERTHEHACKER_REPO_FULL_NAME + " Release Update");
+            assertThat(args).hasSize(5);
+            assertThat(args).contains(senderEmail, replyToEmail, notifyDlEmail, BAXTERTHEHACKER_REPO_FULL_NAME + " Release Update");
             return invocationOnMock;
-        }).when(emailClientWrapper).sendMail(anyString(), anyString(), anyString(), anyString());
+        }).when(emailClientWrapper).sendMail(anyString(), anyString(), anyString(), anyString(), anyString());
 
         when(emailConfig.getSender()).thenReturn(senderEmail);
+        when(emailConfig.getReplyTo()).thenReturn(replyToEmail);
         when(emailConfig.getReleaseNotifyDlForRepo(BAXTERTHEHACKER_REPO_FULL_NAME)).thenReturn(notifyDlEmail);
 
         githubUtils.notifyRelease(releasePayload);

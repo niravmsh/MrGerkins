@@ -20,13 +20,14 @@ public class EmailClientWrapperImpl implements EmailClientWrapper {
     EmailConfig emailConfig;
 
     @Override
-    public void sendMail(String sender, String recipient, String subject, String message) throws EmailException {
+    public void sendMail(String sender, String replyTo, String recipient, String subject, String message) throws EmailException {
 
         HtmlEmail email = new HtmlEmail();
         email.setHostName(emailConfig.getSmtpHost());
         email.setSmtpPort(emailConfig.getSmtpPort());
         email.setAuthenticator(new DefaultAuthenticator("", ""));
         email.setFrom(sender);
+        email.addReplyTo(replyTo);
         email.setSubject(subject);
         email.setMsg(message);
         email.setHtmlMsg(message);

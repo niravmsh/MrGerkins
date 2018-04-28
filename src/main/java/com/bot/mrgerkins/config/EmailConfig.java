@@ -19,6 +19,7 @@ public class EmailConfig {
     private String smtpUser;
     private String smtpPass;
     private String sender;
+    private String replyTo;
     private List<String> releaseNotifyDl;
     private String domain;
 

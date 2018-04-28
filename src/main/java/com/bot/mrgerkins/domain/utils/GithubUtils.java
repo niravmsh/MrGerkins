@@ -178,7 +178,7 @@ public class GithubUtils {
                 context.put("prList", prListHtml.toString());
 
                 emailClientWrapper
-                        .sendMail(emailConfig.getSender(),
+                        .sendMail(emailConfig.getSender(), emailConfig.getReplyTo(),
                                 new StringBuilder(author).append("@").append(emailConfig.getDomain()).toString(),
                                 repoFullName + " Pull Request Update",
                                 templateUtils.materializeTemplateFile(emailTemplate, context));
@@ -211,7 +211,7 @@ public class GithubUtils {
 
         try {
             emailClientWrapper
-                    .sendMail(emailConfig.getSender(),
+                    .sendMail(emailConfig.getSender(), emailConfig.getReplyTo(),
                             notifyDL,
                             String.format("New Tag/Build created for %s", repoFullName),
                             templateUtils.materializeTemplateFile(emailTemplate, context));
@@ -233,7 +233,7 @@ public class GithubUtils {
         context.put("tag", tagName);
         context.put("releaseUrl", new StringBuilder(request.getRepository().getHtmlUrl()).append("/blob/").append(tagName).append("/").append(RELEASE_NOTES_FILE_PATH).toString());
         emailClientWrapper
-                .sendMail(emailConfig.getSender(),
+                .sendMail(emailConfig.getSender(), emailConfig.getReplyTo(),
                         emailConfig.getReleaseNotifyDlForRepo(repoFullName),
                         repoFullName + " Release Update",
                         templateUtils
